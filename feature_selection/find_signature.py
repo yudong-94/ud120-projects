@@ -8,8 +8,8 @@ numpy.random.seed(42)
 ### The words (features) and authors (labels), already largely processed.
 ### These files should have been created from the previous (Lesson 10)
 ### mini-project.
-words_file = "../text_learning/your_word_data.pkl" 
-authors_file = "../text_learning/your_email_authors.pkl"
+words_file = "/Users/hzdy1994/Desktop/Machine Learning/Udacity/ud120-projects/text_learning/your_word_data.pkl" 
+authors_file = "/Users/hzdy1994/Desktop/Machine Learning/Udacity/ud120-projects/text_learning/your_email_authors.pkl"
 word_data = pickle.load( open(words_file, "r"))
 authors = pickle.load( open(authors_file, "r") )
 
@@ -38,6 +38,25 @@ labels_train   = labels_train[:150]
 
 
 ### your code goes here
+from sklearn.tree import DecisionTreeClassifier
+clf = DecisionTreeClassifier()
+clf.fit(features_train, labels_train)
+print clf.score(features_test, labels_test)
 
+importance_lst = clf.feature_importances_
+highest = 0
+index = 0
+important_words = []
 
+for i in xrange(len(importance_lst)):
+    score = importance_lst[i]
+    if score > 0.2:
+        important_words.append(i)
+    if score > highest:
+        highest = importance_lst[i]
+        index = i
 
+print highest
+print index
+print vectorizer.get_feature_names()[index]
+print len(important_words)

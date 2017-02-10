@@ -10,7 +10,7 @@
     
 import sys
 from time import time
-sys.path.append("../tools/")
+sys.path.append("/Users/hzdy1994/Desktop/Machine Learning/Udacity/ud120-projects/tools/")
 from email_preprocess import preprocess
 
 
@@ -24,6 +24,28 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 #########################################################
 ### your code goes here ###
+
+features_train = features_train[:len(features_train)/100] 
+labels_train = labels_train[:len(labels_train)/100] 
+
+from sklearn.svm import SVC
+
+clf = SVC(kernel="rbf", C = 10000.0)
+
+t0 = time()
+clf.fit(features_train, labels_train)
+print "training time:", round(time()-t0, 3), "s"
+
+t0 = time()
+pred = clf.predict(features_test)
+print "prediction time:", round(time()-t0, 3), "s"
+
+#print pred[50]
+print pred.sum()
+
+accuracy = clf.score(features_test, labels_test)
+
+print accuracy 
 
 #########################################################
 
