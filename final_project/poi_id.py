@@ -81,20 +81,33 @@ features = scale(features)
 from sklearn.decomposition import PCA
 pca = PCA(n_components = 6)
 pca.fit(features)
-print pca.explained_variance_ratio_
+# print pca.explained_variance_ratio_
 # the first seven components explained 59%, 21%, 6%, 5%, 3% and 2% variances
 features = pca.fit_transform(features)
-
-# train various classifiers and test them
-
-from sklearn.naive_bayes import GaussianNB
-clf = GaussianNB()
 
 # split traning and testing dataset
 from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
-    
-# train the model and test the classifier
-dump_classifier_and_data(clf, my_dataset, features_list)
-test_classifier(clf, my_dataset, features_list)
+
+# train various classifiers and test them
+
+## Gaussian Naive Bayes
+from sklearn.naive_bayes import GaussianNB
+clf_GNB = GaussianNB()
+
+## Support vector machine
+from sklearn.svm import SVC
+clf_svm = SVC()
+
+# train the classifier and fir the model
+clf_svm.fit(features_train, labels_train)
+
+# model evaluation
+accuracy = clf_svm.score(features_test, labels_test)
+print "accuracy:", accuracy 
+test_prediction = clf_svm.predict(features_test)
+from sklearn.metrics import precision_score
+print "precision:", precision_score(labels_test, test_prediction)
+from sklearn.metrics import recall_score
+print "precision:", recall_score(labels_test, test_prediction)
