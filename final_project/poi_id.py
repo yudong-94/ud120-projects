@@ -95,18 +95,46 @@ features_train, features_test, labels_train, labels_test = \
 ## Gaussian Naive Bayes
 from sklearn.naive_bayes import GaussianNB
 clf_GNB = GaussianNB()
+## not bad
 
 ## Support vector machine
 from sklearn.svm import SVC
-clf_svm = SVC()
+clf_svm = SVC(C = 5, kernel = "poly")
+## very poor
 
+## Decision tree
+from sklearn.tree import DecisionTreeClassifier
+clf_dt = DecisionTreeClassifier(max_depth = 3, min_samples_split = 10)
+## soso
+
+## Adaboost
+from sklearn.ensemble import AdaBoostClassifier
+clf_adaboost = AdaBoostClassifier()
+## seems overfitting
+
+## Random forest
+from sklearn.ensemble import RandomForestClassifier
+clf_rf = RandomForestClassifier()
+
+## KNN
+from sklearn.neighbors import KNeighborsClassifier
+clf_knn = KNeighborsClassifier(n_neighbors = 5)
+# pretty good (but low precision)
+
+## Logistic Regression
+from sklearn.linear_model import LogisticRegression
+clf_lr = LogisticRegression()
+
+clf = clf_lr
 # train the classifier and fir the model
-clf_svm.fit(features_train, labels_train)
+clf.fit(features_train, labels_train)
+# perform poor
 
 # model evaluation
-accuracy = clf_svm.score(features_test, labels_test)
+accuracy = clf.score(features_test, labels_test)
 print "accuracy:", accuracy 
-test_prediction = clf_svm.predict(features_test)
+print "baseline accuracy:", float(sum(labels_test == 0))/len(labels_test)
+test_prediction = clf.predict(features_test)
 from sklearn.metrics import precision_score
 print "precision:", precision_score(labels_test, test_prediction)
 from sklearn.metrics import recall_score
